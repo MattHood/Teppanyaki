@@ -20,6 +20,9 @@ namespace SimpleDelay {
     float delay_time;
     float mix;
   } Parameters;
+
+  void init();
+  MonoBuffer process(MonoBuffer input, Parameters params);
 }
 
 #endif // __SIMPLE_DELAY_H_

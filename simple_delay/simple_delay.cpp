@@ -2,10 +2,14 @@
 
 namespace SimpleDelay {
 
-
   const int MAX_DELAY_SAMPLES = MAX_DELAY_TIME * SAMPLE_RATE;
   std::array<Sample, MAX_DELAY_SAMPLES> audio_memory;
   int head_index;
+
+  void init() {
+    head_index = 0;
+    std::fill(audio_memory.begin(), audio_memory.end(), 0);
+  }
 
   MonoBuffer process(MonoBuffer input, Parameters params) {
     MonoBuffer output;
@@ -20,7 +24,7 @@ namespace SimpleDelay {
     }
 
     auto mixer = [params] (Sample wet, Sample dry)
-                 { return params.mix * wet + (1 - params.mix * dry);};
+                 { return params.mix * wet + (1 - params.mix) * dry;};
     std::transform(output.begin(), output.end(),
                    input.begin(),
                    output.begin(),
