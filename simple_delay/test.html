@@ -238,11 +238,18 @@
             <input name="diffY" id="diffY">
         </div>
         <div>
-            <label for="regenValue">Regen Angle:</label>
+            <label for="regenValue">Pot Angle:</label>
             <input name="regenValue" id="regenValue" value="0"/>
             <span>º</span>
         </div>
     </div>
+    <hr>
+    <!-- <div class="audio-selector">
+        Select Audio
+        <button>Play Sample 1</button>
+        <button>Play Sample 2</button>
+        <button>Play Sample 3</button>
+    </div> -->
 
 <script>
     let mouseOriginX;
@@ -278,16 +285,17 @@
 
     // Add listener to regen pot
     regenPot.addEventListener('mousedown', setMouseOrigin);
-    regenPot.addEventListener('mouseup', clearMouseOrigin);
+    document.addEventListener('mouseup', clearMouseOrigin);
     document.addEventListener('mousemove', calculateDiff);
 
     function onMouseMove(event) {
 
     }
 
-    function setMouseOrigin(event) {
-        mouseOriginX = event.clientX;
-        mouseOriginY = event.clientY;
+    function setMouseOrigin() {
+        let boundingClientRect = regenPot.getBoundingClientRect();
+        mouseOriginX = boundingClientRect.left + boundingClientRect.width / 2;
+        mouseOriginY = boundingClientRect.top + boundingClientRect.height / 2;
         
         updateInputs();
     }
@@ -298,7 +306,8 @@
             diffY = Number(event.clientY) - Number(mouseOriginY);
 
             updateInputs();
-            updateRegenValue(Math.floor((diffX - diffY) / 10));
+            // updateRegenValue(Math.floor((diffX - diffY) / 10));
+            updateRegenValue(diffX, diffY);
         }
     }
 
@@ -316,10 +325,14 @@
         diffYInput.value = diffY;
     }
 
-    function updateRegenValue(newValue) {
-        regenValue = regenValue + newValue;
-        if (regenValue <= 0) regenValue = 0;
-        if (regenValue >= 360) regenValue = 360;
+    function updateRegenValue(x, y) {
+        // Get angle in degrees of cursor from the top of the potentiometer
+        regenValue = Math.atan2(y, x) * 180 / Math.PI + 90;
+        // offset if in Q2 
+        if (x <= 0 && y <= 0) {
+            regenValue += 360;
+        }
+        
         regenValueInput.value = regenValue;
     }
 
