@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="simple_delay_ui.svg"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 74 105"
+   height="105mm"
+   width="74mm">
+  <defs
+     id="defs2">
+    <symbol
+       id="g850">
+      <ellipse
+         style="fill:#ffffff;fill-opacity:0.68;stroke:#000000;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path842"
+         cx="14.576372"
+         cy="15.604138"
+         rx="4.9217472"
+         ry="5.0051661" />
+      <ellipse
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path846"
+         cx="14.637383"
+         cy="13.244472"
+         rx="1.3355088"
+         ry="1.1685703" />
+    </symbol>
+    <symbol
+       id="g973">
+      <circle
+         style="fill:#000000;fill-opacity:0;stroke:#000000;stroke-width:0.53;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path961"
+         cx="37"
+         cy="92.825264"
+         r="4.8476472" />
+      <circle
+         style="fill:#000000;fill-opacity:0;stroke:#000000;stroke-width:0.53;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path959"
+         cx="37"
+         cy="92.675606"
+         r="7.5566263" />
+    </symbol>
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-maximized="0"
+     inkscape:window-y="23"
+     inkscape:window-x="0"
+     inkscape:window-height="961"
+     inkscape:window-width="1671"
+     inkscape:snap-global="false"
+     showgrid="true"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer2"
+     inkscape:document-units="mm"
+     inkscape:cy="208.43035"
+     inkscape:cx="84.695399"
+     inkscape:zoom="1.6898233"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base">
+    <inkscape:grid
+       spacingy="1"
+       spacingx="1"
+       units="mm"
+       originy="0"
+       originx="0"
+       id="grid10"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     style="display:inline"
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Background">
+    <rect
+       rx="4.6783528"
+       ry="4.5890255"
+       y="0.92675304"
+       x="0.73990214"
+       height="103.14649"
+       width="72.520203"
+       id="rect12"
+       style="fill:#ffffff;fill-opacity:0.68;fill-rule:evenodd;stroke:#000000;stroke-width:0.974611;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       id="text839"
+       y="58.727287"
+       x="12.881325"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:5.02708px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';stroke-width:0.264583"
+         y="58.727287"
+         x="12.881325"
+         id="tspan837"
+         sodipodi:role="line">Delay</tspan></text>
+    <text
+       id="text929"
+       y="31.794863"
+       x="1.1406227"
+       style="font-style:normal;font-weight:normal;font-size:7.05556px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';stroke-width:0.264583"
+         y="31.794863"
+         x="1.1406227"
+         id="tspan927"
+         sodipodi:role="line">Time</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:7.05556px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="28.872633"
+       y="19.505817"
+       id="text929-8"><tspan
+         sodipodi:role="line"
+         id="tspan927-7"
+         x="28.872633"
+         y="19.505817"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';stroke-width:0.264583">Regen</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:7.05556px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="54.821804"
+       y="32.4804"
+       id="text929-2"><tspan
+         sodipodi:role="line"
+         id="tspan927-1"
+         x="54.821804"
+         y="32.4804"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';stroke-width:0.264583">Mix</tspan></text>
+    <rect
+       ry="4.6714835"
+       rx="4.8383293"
+       y="76.226265"
+       x="36.9221"
+       height="8.4365005"
+       width="0.099252954"
+       id="rect989"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.53;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="Controls"
+     id="layer2"
+     inkscape:groupmode="layer">
+    <use
+       transform="matrix(1.4409175,0,0,1.4948458,-8.0512912,-9.8362535)"
+       height="100%"
+       width="100%"
+       y="0"
+       x="0"
+       id="pot_time"
+       xlink:href="#g850" />
+       <animateTransform 
+            attributeName="transform"
+            attributeType="XML"
+            type="rotate"
+            to="360 60 70"
+            dur="10s"
+            repeatCount="indefinite"
+        />
+    <use
+       transform="matrix(1.4409175,0,0,1.4948458,16.749326,9.982069)"
+       height="100%"
+       width="100%"
+       y="0"
+       x="0"
+       id="pot_regen"
+       xlink:href="#g850" />
+    <use
+       inkscape:transform-center-y="12.57076"
+       transform="matrix(1.4409175,0,0,1.4948458,42.262826,-9.9788314)"
+       height="100%"
+       width="100%"
+       y="0"
+       x="0"
+       id="pot_mix"
+       xlink:href="#g850" />
+    <use
+       height="100%"
+       width="100%"
+       y="0"
+       x="0"
+       id="switch_bypass"
+       xlink:href="#g973" />
+    <circle
+       r="1.3895414"
+       cy="74.935974"
+       cx="36.9221"
+       id="led_bypass"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.53;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+</svg>

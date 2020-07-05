@@ -1,0 +1,41 @@
+.led:active {
+    fill: currentColor;
+}
+
+@keyframes power-on {
+    from {fill-opacity: 0}
+    to {fill-opacity: 1;}
+}
+
+.play {
+    animation-name: power-on;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes power-off {
+    from {fill-opacity: 1}
+    to {fill-opacity: 0;}
+}
+
+.reverse {
+    animation-name: power-off;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
+
+
+@keyframes press-button {
+    from {fill: white;}
+    to {fill: gray;}
+}
+
+.stomp-toggle {
+    fill-opacity: 1;
+    animation-name: press-button;
+    animation-duration: 200ms;
+}
+
+svg circle {
+    fill: inherit;
+}
