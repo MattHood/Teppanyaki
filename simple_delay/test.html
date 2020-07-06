@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Teppanyaki</title>
     <link rel="stylesheet" href="test.css">
 </head>
 <body>
+    
     <div>
         SVG Animation Test
     </div>
@@ -237,9 +238,20 @@
             <label for="diffY">Diff Y:</label>
             <input name="diffY" id="diffY">
         </div>
+        <hr>
         <div>
-            <label for="regenValue">Pot Angle:</label>
+            <label for="regenValue">Regen Angle:</label>
             <input name="regenValue" id="regenValue" value="0"/>
+            <span>º</span>
+        </div>
+        <div>
+            <label for="timeValue">Time Angle:</label>
+            <input name="timeValue" id="timeValue" value="0"/>
+            <span>º</span>
+        </div>
+        <div>
+            <label for="mixValue">Mix Angle:</label>
+            <input name="mixValue" id="mixValue" value="0"/>
             <span>º</span>
         </div>
     </div>
@@ -263,16 +275,23 @@
     const originYInput = document.querySelector('#originY');
     const diffXInput = document.querySelector('#diffX');
     const diffYInput = document.querySelector('#diffY');
+
     const regenValueInput = document.querySelector('#regenValue');
+    const timeValueInput = document.querySelector('#timeValue');
+    const mixValueInput = document.querySelector('#mixValue');
 
     // SVG Controls
-    const regenPot = document.querySelector('#pot_regen')
+    const regenPot = document.querySelector('#pot_regen');
+    const timePot = document.querySelector('#pot_time');
+    const mixPot = document.querySelector('#pot_mix');
+    let activeElement = null;
 
     // Create LED on/off animation
     const led = document.querySelector('#led_bypass');
     const powerButton = document.querySelector('#switch_bypass');
     led.classList = 'led';
 
+    // Toggles LED animation classes
     powerButton.addEventListener('click', function() {
         if (led.classList.contains('play')) {
             led.classList.remove('play');
@@ -280,41 +299,68 @@
         } else {
             led.classList.remove('reverse');
             led.classList.add('play');
-        }        
+        }
     });
 
-    // Add listener to regen pot
+    // Add Pot listeners
     regenPot.addEventListener('mousedown', setMouseOrigin);
+    timePot.addEventListener('mousedown', setMouseOrigin);
+    mixPot.addEventListener('mousedown', setMouseOrigin);
     document.addEventListener('mouseup', clearMouseOrigin);
     document.addEventListener('mousemove', calculateDiff);
 
-    function onMouseMove(event) {
-
-    }
-
-    function setMouseOrigin() {
-        let boundingClientRect = regenPot.getBoundingClientRect();
+    // Sets Mouse Origin X and Y to the center of the Potentiometer that was clicked on
+    function setMouseOrigin(event) {
+        let boundingClientRect = event.target.getBoundingClientRect();
         mouseOriginX = boundingClientRect.left + boundingClientRect.width / 2;
         mouseOriginY = boundingClientRect.top + boundingClientRect.height / 2;
         
         updateInputs();
+
+        activeElement = event.target;
     }
 
+    // Calculates the difference between the current cursor position and the mouseOrigin position
     function calculateDiff(event) {
         if (mouseOriginX & mouseOriginY)  {
             diffX = Number(event.clientX) - Number(mouseOriginX);
             diffY = Number(event.clientY) - Number(mouseOriginY);
 
             updateInputs();
-            // updateRegenValue(Math.floor((diffX - diffY) / 10));
-            updateRegenValue(diffX, diffY);
+            const angle = updateRegenValue(diffX, diffY);
+
+            if (!activeElement) return;
+
+            // Map Value to Active Element (Potentiometer)
+            if (activeElement.id === regenPot.id) {
+                regenValueInput.value = angle;
+            } else if (activeElement.id === mixPot.id) {
+                mixValueInput.value = angle;
+            } else if (activeElement.id === timePot.id) {
+                timeValueInput.value = angle;
+            }
         }
     }
 
+    // Gets the angle in degrees of the cursor from the top of the potentiometer
+    function updateRegenValue(x, y) {
+        regenValue = Math.atan2(y, x) * 180 / Math.PI + 90;
+        // offset if in Q2 
+        if (x <= 0 && y <= 0) {
+            regenValue += 360;
+        }
+        
+        // regenValueInput.value = Math.floor(regenValue);
+        return Math.floor(regenValue);
+    }
+
     function clearMouseOrigin() {
+        // Clear mouse co-ordinates
         mouseOriginX = null;
         mouseOriginY = null;
         
+        // Clear active element
+        activeElement = null;
         updateInputs();
     }
 
@@ -325,16 +371,6 @@
         diffYInput.value = diffY;
     }
 
-    function updateRegenValue(x, y) {
-        // Get angle in degrees of cursor from the top of the potentiometer
-        regenValue = Math.atan2(y, x) * 180 / Math.PI + 90;
-        // offset if in Q2 
-        if (x <= 0 && y <= 0) {
-            regenValue += 360;
-        }
-        
-        regenValueInput.value = regenValue;
-    }
 
 </script>
 </body>
