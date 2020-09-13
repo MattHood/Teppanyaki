@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <audio src="rach.m4a" id="rach"></audio>
+  <script src="teppanyaki.js" type="text/javascript"></script>
+<script>
+const audioContext = new AudioContext();
+const el = document.getElementById("rach");
+const track = audioContext.createMediaElementSource(el); 
+// track.connect(audioContext.destination);
+var tepp = new Teppanyaki(audioContext, track);
+el.play();
+ 
+</script>
+<body>1</body>
+</html>
