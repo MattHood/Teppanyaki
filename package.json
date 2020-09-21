@@ -1,0 +1,22 @@
+{
+  "name": "teppanyaki",
+  "version": "1.0.0",
+  "description": "Teppanyaki",
+  "main": "teppanyaki.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MattHood/Teppanyaki.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/MattHood/Teppanyaki/issues"
+  },
+  "homepage": "https://github.com/MattHood/Teppanyaki#readme",
+  "devDependencies": {
+    "eslint": "^7.9.0"
+  }
+}
