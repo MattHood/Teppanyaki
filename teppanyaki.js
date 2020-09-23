@@ -1,4 +1,4 @@
-import Constants from './constants.js';
+import {Constants, ParameterBounds} from './constants.js';
 
 export default class Teppanyaki {
 
@@ -38,7 +38,12 @@ export default class Teppanyaki {
 			delayMax: 1.6,
 			regenMin: 0.3,
 			regenMax: 0.8,
-			mix: 0.5
+			panMin: -1,
+			panMax: 1,
+			highpass: 1000,
+			lowpass: 4000,
+			mix: 0.5,
+			envelopeLevel: 9
 		};
 
 		this.setMix(this.parameterState.mix);
@@ -83,6 +88,20 @@ export default class Teppanyaki {
 		return Math.random()*(max - min) + min;
 	}
 
+	realiseParametersAsLineSettings(parameters) {
+		let lineSettings = {
+			delay: this.randomInRange(parameters.delayMin, parameters.delayMax),
+			regen: this.randomInRange(parameters.regenMin, parameters.regenMax),
+			pan: this.randomInRange(parameters.panMin, parameters.panMax),
+			mix: parameters.mix,
+			highpass: parameters.highpass,
+			lowpass: parameters.lowpass,
+			envelopeLevel: parameters.envelopeLevel
+		};
+		return lineSettings;
+	}
+
+
 	// eslint-disable-next-line no-unused-vars
 	envelope(evt) {
 		let currentTime = this.audioContext.currentTime;
@@ -95,11 +114,10 @@ export default class Teppanyaki {
 
 		this.lines[prev].inputGain.gain.linearRampToValueAtTime(0, currentTime + Constants.RAMP_TIME);
 
+		let newLineSettings = this.realiseParametersAsLineSettings(this.parameterState);
 		this.lines[next].delayLine.port.postMessage({message: 'clear'});
-		let newDelayTime = this.randomInRange(this.parameterState.delayMin, this.parameterState.delayMax);
-		nextDelayTimeParam.value = newDelayTime;
-		let newRegen = this.randomInRange(this.parameterState.regenMin, this.parameterState.regenMax);
-		nextRegenParam.value = newRegen;   
+		nextDelayTimeParam.value = newLineSettings.delay;
+		nextRegenParam.value = newLineSettings.regen;   
 		this.lines[next].outputGain.gain.linearRampToValueAtTime(1, currentTime + Constants.RAMP_TIME);
 		this.lines[next].inputGain.gain.linearRampToValueAtTime(1, currentTime + Constants.RAMP_TIME);
 
