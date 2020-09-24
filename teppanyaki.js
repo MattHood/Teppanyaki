@@ -111,15 +111,17 @@ export default class Teppanyaki {
 
 		let nextDelayTimeParam = this.lines[next].delayLine.parameters.get('delayTime');
 		let nextRegenParam = this.lines[next].delayLine.parameters.get('regen');
+		let nextPanParam = this.lines[next].delayLine.parameters.get('pan');
 
 		this.lines[prev].inputGain.gain.linearRampToValueAtTime(0, currentTime + Constants.RAMP_TIME);
 
 		let newLineSettings = this.realiseParametersAsLineSettings(this.parameterState);
 		this.lines[next].delayLine.port.postMessage({message: 'clear'});
 		nextDelayTimeParam.value = newLineSettings.delay;
-		nextRegenParam.value = newLineSettings.regen;   
-		this.lines[next].outputGain.gain.linearRampToValueAtTime(1, currentTime + Constants.RAMP_TIME);
-		this.lines[next].inputGain.gain.linearRampToValueAtTime(1, currentTime + Constants.RAMP_TIME);
+		nextRegenParam.value = newLineSettings.regen;
+		nextPanParam.value = newLineSettings.pan;   
+		this.lines[next].outputGain.gain.exponentialRampToValueAtTime(1, currentTime + Constants.RAMP_TIME);
+		this.lines[next].inputGain.gain.exponentialRampToValueAtTime(1, currentTime + Constants.RAMP_TIME);
 
 		this.lines[future].outputGain.gain.linearRampToValueAtTime(0, currentTime + Constants.RAMP_TIME);
 

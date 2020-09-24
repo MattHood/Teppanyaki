@@ -3,7 +3,7 @@ import Constants from './constants.js';
 class EnvelopeFollowerWorklet extends AudioWorkletProcessor {
 	constructor() {
 		super();
-		this.numberOfEnvelopes = 9;
+		this.numberOfEnvelopes = 8;
 
 		this.lastSample = new Array(Constants.MAX_ENVELOPES).fill(0);
 		this.lastSign = new Array(Constants.MAX_ENVELOPES).fill(0);

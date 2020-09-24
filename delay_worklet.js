@@ -32,8 +32,8 @@ class DelayWorklet extends AudioWorkletProcessor {
 		this.rightAmp = 0.5*(1 + pan);
 
 		// Just in case floating point shenanigans give us gain > 1
-		this.leftAmp = this.clamp(this.leftAmp);
-		this.rightAmp = this.clamp(this.rightAmp);
+		//this.leftAmp = this.clamp(this.leftAmp);
+		//this.rightAmp = this.clamp(this.rightAmp);
 	}
 
 	// TODO: Add filtering
@@ -44,8 +44,8 @@ class DelayWorklet extends AudioWorkletProcessor {
 		this.setGlobalPanAmplitudes(parameters.pan[0]);
 
 		let input = inputs[0][0];
-		let output = outputs[0][0];
-		
+		let outputL = outputs[0][0];
+		let outputR = outputs[0][1];
 
 		if(typeof input == 'undefined') {
 			return true;
@@ -55,9 +55,11 @@ class DelayWorklet extends AudioWorkletProcessor {
 		for(let i = 0; i < input.length; i++) {
 			let futureIndex = (this.headIndex + Math.floor(delaySamples)) % (Constants.MAX_DELAY_TIME * Constants.SAMPLE_RATE);
 			this.audioMemory[futureIndex] = (this.audioMemory[this.headIndex] + input[i]) * regen;
-			output[i] = this.audioMemory[this.headIndex];
+			outputL[i] = this.audioMemory[this.headIndex] * this.leftAmp;
+			outputR[i] = this.audioMemory[this.headIndex] * this.rightAmp;
 			this.headIndex = (this.headIndex + 1) % (Constants.MAX_DELAY_TIME * Constants.SAMPLE_RATE);
 		}
+
 		return true;
 	}
 }
