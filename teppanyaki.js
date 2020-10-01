@@ -1,4 +1,5 @@
-import {Constants, ParameterBounds} from './constants.js';
+import {Constants, DefaultParameters} from './constants.js';
+import DelayLine from './delay_line.js';
 
 export default class Teppanyaki {
 
@@ -14,11 +15,12 @@ export default class Teppanyaki {
 		inputNode.connect(this.wetInput);
 		inputNode.connect(this.dryInput);
 
-		this.audioContext.audioWorklet
-			.addModule('delay_worklet.js')
-			.then(() => {
-				this.initDelayLines();
-			});
+		// Create NUMBER_OF_LINES delay lines
+		for(var i = 0; i < Constants.NUMBER_OF_LINES; i++) {
+			this.lines[i] = new DelayLine(this.audioContext, this.wetInput, this.wetOutput);
+		}
+		// Unmute the first line
+		this.lines[this.activeLine].unmute();
 
 		this.wetOutput.connect(this.mixedOutput);
 		this.dryInput.connect(this.mixedOutput);
@@ -33,48 +35,13 @@ export default class Teppanyaki {
 			});
 
 		// TODO Create from a const
-		this.parameterState = {
-			delayMin: 0.3,
-			delayMax: 1.6,
-			regenMin: 0.3,
-			regenMax: 0.8,
-			panMin: -1,
-			panMax: 1,
-			highpass: 1000,
-			lowpass: 4000,
-			mix: 0.5,
-			envelopeLevel: 9
-		};
+		this.parameterState = DefaultParameters;
 
 		this.setMix(this.parameterState.mix);
 
 	}
 
-	initDelayLines() {
 
-		// For each delay line, create the graph
-		// GainNode -> DelayLine -> GainNode,
-		// with input and output muted.
-		for(var i = 0; i < Constants.NUMBER_OF_LINES; i++) {
-			this.lines[i] = {
-				inputGain: this.audioContext.createGain(),
-				delayLine: new AudioWorkletNode(this.audioContext, 'delay-worklet'),
-				outputGain: this.audioContext.createGain()
-			};
-
-			this.lines[i].inputGain.gain.value = 0;
-			this.lines[i].outputGain.gain.value = 0;
-			
-			this.wetInput.connect(this.lines[i].inputGain)
-				.connect(this.lines[i].delayLine)
-				.connect(this.lines[i].outputGain)
-				.connect(this.wetOutput);
-		}
-
-		// Unmute the first line
-		this.lines[this.activeLine].inputGain.gain.value = 1;
-		this.lines[this.activeLine].outputGain.gain.value = 1;
-	}
 
 	setMix(mix) {
 		let wetGain = mix;
@@ -90,12 +57,12 @@ export default class Teppanyaki {
 
 	realiseParametersAsLineSettings(parameters) {
 		let lineSettings = {
-			delay: this.randomInRange(parameters.delayMin, parameters.delayMax),
+			delayTime: this.randomInRange(parameters.delayMin, parameters.delayMax),
 			regen: this.randomInRange(parameters.regenMin, parameters.regenMax),
 			pan: this.randomInRange(parameters.panMin, parameters.panMax),
 			mix: parameters.mix,
-			highpass: parameters.highpass,
-			lowpass: parameters.lowpass,
+			highpass: parameters.cutoffHP,
+			lowpass: parameters.cutoffLP,
 			envelopeLevel: parameters.envelopeLevel
 		};
 		return lineSettings;
@@ -104,29 +71,25 @@ export default class Teppanyaki {
 
 	// eslint-disable-next-line no-unused-vars
 	envelope(evt) {
-		let currentTime = this.audioContext.currentTime;
 		let prev = this.activeLine;
 		let next = (this.activeLine + 1) % Constants.NUMBER_OF_LINES;
-		let future = (next + 1) % Constants.NUMBER_OF_LINES;
+		let after = (next + 1) % Constants.NUMBER_OF_LINES;
+		let future = (after + 1) % Constants.NUMBER_OF_LINES;
 
-		let nextDelayTimeParam = this.lines[next].delayLine.parameters.get('delayTime');
-		let nextRegenParam = this.lines[next].delayLine.parameters.get('regen');
-		let nextPanParam = this.lines[next].delayLine.parameters.get('pan');
+		let newParams = this.realiseParametersAsLineSettings(this.parameterState);
 
-		this.lines[prev].inputGain.gain.linearRampToValueAtTime(0, currentTime + Constants.RAMP_TIME);
+		this.lines[prev].removeInput();
+		this.lines[next].reset(
+			newParams.delayTime, 
+			newParams.regen, 
+			newParams.pan,
+			newParams.highpass,
+			newParams.lowpass);
+		this.lines[after].clearAudio();
+		this.lines[future].windDown();
 
-		let newLineSettings = this.realiseParametersAsLineSettings(this.parameterState);
-		this.lines[next].delayLine.port.postMessage({message: 'clear'});
-		nextDelayTimeParam.value = newLineSettings.delay;
-		nextRegenParam.value = newLineSettings.regen;
-		nextPanParam.value = newLineSettings.pan;   
-		this.lines[next].outputGain.gain.exponentialRampToValueAtTime(1, currentTime + Constants.RAMP_TIME);
-		this.lines[next].inputGain.gain.exponentialRampToValueAtTime(1, currentTime + Constants.RAMP_TIME);
-
-		this.lines[future].outputGain.gain.linearRampToValueAtTime(0, currentTime + Constants.RAMP_TIME);
 
 		this.activeLine = next;
-
 	}
 
 }

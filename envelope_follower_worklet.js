@@ -1,14 +1,18 @@
-import Constants from './constants.js';
+import {Constants, DefaultParameters} from './constants.js';
 
 class EnvelopeFollowerWorklet extends AudioWorkletProcessor {
 	constructor() {
 		super();
-		this.numberOfEnvelopes = 8;
+		this.numberOfEnvelopes = DefaultParameters.envelopeLevel;
 
 		this.lastSample = new Array(Constants.MAX_ENVELOPES).fill(0);
 		this.lastSign = new Array(Constants.MAX_ENVELOPES).fill(0);
 		this.currentLength = 0;
 		this.minimumLength = Constants.RAMP_SAMPLES + 1;
+	}
+
+	setEnvelopeLevel(level) {
+		this.numberOfEnvelopes = level;
 	}
 
 	followEnvelopes(sample) {
@@ -69,6 +73,7 @@ class EnvelopeFollowerWorklet extends AudioWorkletProcessor {
 			if(this.followEnvelopes(input[i])) {
 				this.port.postMessage({
 					message: 'env',
+					// eslint-disable-next-line no-undef
 					contextTimestamp: currentTime,
 				});
 			}

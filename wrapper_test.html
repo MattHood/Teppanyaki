@@ -4,13 +4,31 @@
   <!-- <script src="teppanyaki.js" type="module"></script> -->
 <script type = "module">
   import Teppanyaki from "./teppanyaki.js"
+  import DelayLine from "./delay_line.js"
+
   const audioContext = new AudioContext();
   const el = document.getElementById("rach");
   const track = audioContext.createMediaElementSource(el); 
-  // track.connect(audioContext.destination);
+  track.connect(audioContext.destination);
   var tepp = new Teppanyaki(audioContext, track);
+  
+
+  // audioContext.audioWorklet
+  //   .addModule('delay_worklet.js')
+  //   .then(() => {
+  //     let delay = new AudioWorkletNode(audioContext, 'delay-worklet');     
+  //     track.connect(delay).connect(audioContext.destination);
+  //   });
+
+  //let dl = new DelayLine(audioContext, track, audioContext.destination);
+  //dl.unmute();
+
   el.play();
  
 </script>
-<body>1</body>
+<body>
+  <input type= "range" id = "delayMin" min = "0.01" max = "3" step = "0.1" value = "0.8">
+    <label for="delayMin">Delay Min</label> <br />
+
+</body>
 </html>
