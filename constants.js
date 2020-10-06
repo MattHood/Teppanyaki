@@ -1,10 +1,10 @@
 export const Constants = {
-	RAMP_SAMPLES: 3000,
+	RAMP_SAMPLES: 4000,
 	NUMBER_OF_LINES: 32,
 	MAX_DELAY_TIME: 3,
 	SAMPLE_RATE: 44100,
 	MAX_ENVELOPES: 10,
-	RAMP_TIME: 3000 / 44100 // FIXME
+	RAMP_TIME: 4000 / 44100 // FIXME
 };
 
 export const InitialDelayParameters = {
@@ -24,7 +24,7 @@ export const DefaultParameters = {
 	cutoffLP: 4000,
 	resonanceHP: 0.3,
 	resonanceLP: 0.3,
-	mix: 0.5,
+	mix: 1,
 	envelopeLevel: 8
 };
 

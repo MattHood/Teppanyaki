@@ -34,14 +34,39 @@ export default class Teppanyaki {
 				this.env.port.onmessage = this.envelope.bind(this);
 			});
 
-		// TODO Create from a const
 		this.parameterState = DefaultParameters;
 
 		this.setMix(this.parameterState.mix);
 
 	}
 
+	//  Below are the parameters that will be applied to the next delay line
+	//
+	setDelayTime(min, max) {
+		this.parameterState.delayMin = min;
+		this.parameterState.delayMax = max;
+	}
 
+	setRegen(min, max) {
+		this.parameterState.regenMin = min;
+		this.parameterState.regenMax = max;
+	}
+
+	setPan(min, max) {
+		this.parameterState.panMin = min;
+		this.parameterState.panMax = max;
+	}
+
+	setFilter(hp, lp) {
+		this.parameterState.cutoffHP = hp;
+		this.parameterState.cutoffLP = lp;
+	}
+
+	// Then the more global parameters
+	setEnvelopeLevel(level) {
+		let p = this.env.parameters.get('level');
+		p.value = level;
+	}
 
 	setMix(mix) {
 		let wetGain = mix;
@@ -60,10 +85,8 @@ export default class Teppanyaki {
 			delayTime: this.randomInRange(parameters.delayMin, parameters.delayMax),
 			regen: this.randomInRange(parameters.regenMin, parameters.regenMax),
 			pan: this.randomInRange(parameters.panMin, parameters.panMax),
-			mix: parameters.mix,
 			highpass: parameters.cutoffHP,
-			lowpass: parameters.cutoffLP,
-			envelopeLevel: parameters.envelopeLevel
+			lowpass: parameters.cutoffLP
 		};
 		return lineSettings;
 	}

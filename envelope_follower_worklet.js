@@ -1,6 +1,15 @@
-import {Constants, DefaultParameters} from './constants.js';
+import {Constants, DefaultParameters, ParameterBounds} from './constants.js';
 
 class EnvelopeFollowerWorklet extends AudioWorkletProcessor {
+	static get parameterDescriptors() {
+		return [{
+			name: 'level',
+			defaultValue: DefaultParameters.envelopeLevel,
+			minValue: ParameterBounds.ENVELOPES_MIN,
+			maxValue: ParameterBounds.ENVELOPES_MAX
+		}];
+	}
+
 	constructor() {
 		super();
 		this.numberOfEnvelopes = DefaultParameters.envelopeLevel;
@@ -9,10 +18,6 @@ class EnvelopeFollowerWorklet extends AudioWorkletProcessor {
 		this.lastSign = new Array(Constants.MAX_ENVELOPES).fill(0);
 		this.currentLength = 0;
 		this.minimumLength = Constants.RAMP_SAMPLES + 1;
-	}
-
-	setEnvelopeLevel(level) {
-		this.numberOfEnvelopes = level;
 	}
 
 	followEnvelopes(sample) {
@@ -68,6 +73,7 @@ class EnvelopeFollowerWorklet extends AudioWorkletProcessor {
 	// eslint-disable-next-line no-unused-vars
 	process(inputs, outputs, parameters) {
 		let input = inputs[0][0];
+		this.numberOfEnvelopes = parameters.level;
 
 		for(let i = 0; i < input.length; i++) {
 			if(this.followEnvelopes(input[i])) {

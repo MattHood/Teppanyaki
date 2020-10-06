@@ -52,14 +52,15 @@ export class DelayLine {
 	}
 
 	reset(delayTime, regen, pan, highpass, lowpass) {
+		let rampDelta = this.ac.currentTime + Constants.RAMP_TIME;
 		this.delay.delayTime.value = delayTime;
 		this.feedback.gain.value = regen;
 		this.panner.pan.value = pan;
-		this.highpass.frequency.value = highpass;
-		this.lowpass.frequency.value = lowpass;
+		this.highpass.frequency.linearRampToValueAtTime(highpass, rampDelta);
+		this.lowpass.frequency.linearRampToValueAtTime(lowpass, rampDelta);
 
 		this.outputGain.gain.value = 1;
-		this.inputGain.gain.linearRampToValueAtTime(1, this.ac.currentTime + Constants.RAMP_TIME);
+		this.inputGain.gain.linearRampToValueAtTime(1, rampDelta);
 	}
 
 	removeInput() {

@@ -11,24 +11,86 @@
   const track = audioContext.createMediaElementSource(el); 
   track.connect(audioContext.destination);
   var tepp = new Teppanyaki(audioContext, track);
-  
 
-  // audioContext.audioWorklet
-  //   .addModule('delay_worklet.js')
-  //   .then(() => {
-  //     let delay = new AudioWorkletNode(audioContext, 'delay-worklet');     
-  //     track.connect(delay).connect(audioContext.destination);
-  //   });
-
-  //let dl = new DelayLine(audioContext, track, audioContext.destination);
-  //dl.unmute();
+  window.Teppanyaki = tepp;
 
   el.play();
  
 </script>
 <body>
-  <input type= "range" id = "delayMin" min = "0.01" max = "3" step = "0.1" value = "0.8">
+  <input type= "range" id = "delayMin">
     <label for="delayMin">Delay Min</label> <br />
+  <input type= "range" id = "delayMax">
+    <label for="delayMax">Delay Max</label> <br />
+
+  <input type= "range" id = "regenMin">
+    <label for="regenMin">Regen Min</label> <br />
+  <input type= "range" id = "regenMax">
+    <label for="regenMax">Regen Max</label> <br />
+
+  <input type= "range" id = "panMin">
+    <label for="panMin">Pan Min</label> <br />
+  <input type= "range" id = "panMax">
+    <label for="panMax">Pan Max</label> <br />
+
+  <input type= "range" id = "cutoffHP">
+    <label for="cutoffHP">Highpass</label> <br />
+  <input type= "range" id = "cutoffLP">
+    <label for="cutoffLP">Lowpass</label> <br />
+
+  <script type = "module">
+    import {DefaultParameters, ParameterBounds} from './constants.js';
+    let sliders = {
+      delayMin: document.querySelector("#delayMin"),
+      delayMax: document.querySelector("#delayMax"),
+      regenMin: document.querySelector("#regenMin"),
+      regenMax: document.querySelector("#regenMax"),
+      panMin: document.querySelector("#panMin"),
+      panMax: document.querySelector("#panMax"),
+      cutoffHP: document.querySelector("#cutoffHP"),
+      cutoffLP: document.querySelector("#cutoffLP")
+    };
+
+    function setSliderParams(el, min, max, def) {
+      el.min = ParameterBounds[min];
+      el.max = ParameterBounds[max];
+      el.defaultValue = DefaultParameters[def];
+      el.value = el.defaultValue;
+      el.step = (el.max - el.min) / 127;
+    };
+
+    function coupleSliders(lowerName, upperName) {
+      let lower = sliders[lowerName];
+      let upper = sliders[upperName];
+
+      lower.oninput = function() {
+        upper.value = Math.max(upper.value, lower.value);
+        Teppanyaki.parameterState[lowerName] = parseFloat(lower.value);
+        Teppanyaki.parameterState[upperName] = parseFloat(upper.value);
+      }
+      upper.oninput = function() {
+        lower.value = Math.min(lower.value, upper.value);
+        Teppanyaki.parameterState[lowerName] = parseFloat(lower.value);
+        Teppanyaki.parameterState[upperName] = parseFloat(upper.value);
+      }
+    };
+
+    setSliderParams(sliders.delayMin, "DELAY_MIN", "DELAY_MAX", "delayMin");
+    setSliderParams(sliders.delayMax, "DELAY_MIN", "DELAY_MAX", "delayMax");
+    coupleSliders("delayMin", "delayMax");
+
+    setSliderParams(sliders.regenMin, "REGEN_MIN", "REGEN_MAX", "regenMin");
+    setSliderParams(sliders.regenMax, "REGEN_MIN", "REGEN_MAX", "regenMax");
+    coupleSliders("regenMin", "regenMax");
+
+    setSliderParams(sliders.panMin, "PAN_LEFT", "PAN_RIGHT", "panMin");
+    setSliderParams(sliders.panMax, "PAN_LEFT", "PAN_RIGHT", "panMax");
+    coupleSliders("panMin", "panMax");
+
+    setSliderParams(sliders.cutoffHP, "HIGHPASS", "LOWPASS", "cutoffHP");
+    setSliderParams(sliders.cutoffLP, "HIGHPASS", "LOWPASS", "cutoffLP");
+    coupleSliders("cutoffHP", "cutoffLP");
+  </script>
 
 </body>
 </html>
