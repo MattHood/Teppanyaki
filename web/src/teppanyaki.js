@@ -1,5 +1,6 @@
-import {Constants, DefaultParameters} from './constants.js';
+import Constants from './constants.js';
 import DelayLine from './delay_line.js';
+import TeppanyakiParameters from './parameters.js';
 
 export default class Teppanyaki {
 
@@ -34,46 +35,12 @@ export default class Teppanyaki {
 				this.env.port.onmessage = this.envelope.bind(this);
 			});
 
-		this.parameterState = DefaultParameters;
-
-		this.setMix(this.parameterState.mix);
+		this.parameterState = new TeppanyakiParameters(this);
 
 	}
 
-	//  Below are the parameters that will be applied to the next delay line
-	//
-	setDelayTime(min, max) {
-		this.parameterState.delayMin = min;
-		this.parameterState.delayMax = max;
-	}
-
-	setRegen(min, max) {
-		this.parameterState.regenMin = min;
-		this.parameterState.regenMax = max;
-	}
-
-	setPan(min, max) {
-		this.parameterState.panMin = min;
-		this.parameterState.panMax = max;
-	}
-
-	setFilter(hp, lp) {
-		this.parameterState.cutoffHP = hp;
-		this.parameterState.cutoffLP = lp;
-	}
-
-	// Then the more global parameters
-	setEnvelopeLevel(level) {
-		let p = this.env.parameters.get('level');
-		p.value = level;
-	}
-
-	setMix(mix) {
-		let wetGain = mix;
-		let dryGain = 1 - mix;
-		let transitionTime = this.audioContext.currentTime + Constants.RAMP_TIME;
-		this.wetOutput.gain.linearRampToValueAtTime(wetGain, transitionTime);
-		this.dryInput.gain.linearRampToValueAtTime(dryGain, transitionTime);
+	getParameterStore() {
+		return this.parameterState;
 	}
 
 	randomInRange(min, max) {

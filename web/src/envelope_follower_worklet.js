@@ -1,12 +1,12 @@
-import {Constants, DefaultParameters, ParameterBounds} from './constants.js';
+import {Constants, DefaultParameters, ParameterMinimums, ParameterMaximums} from './constants.js';
 
 class EnvelopeFollowerWorklet extends AudioWorkletProcessor {
 	static get parameterDescriptors() {
 		return [{
 			name: 'level',
 			defaultValue: DefaultParameters.envelopeLevel,
-			minValue: ParameterBounds.ENVELOPES_MIN,
-			maxValue: ParameterBounds.ENVELOPES_MAX
+			minValue: ParameterMinimums.envelopeLevel,
+			maxValue: ParameterMaximums.envelopeLevel
 		}];
 	}
 

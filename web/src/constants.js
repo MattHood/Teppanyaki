@@ -4,7 +4,8 @@ export const Constants = {
 	MAX_DELAY_TIME: 3,
 	SAMPLE_RATE: 44100,
 	MAX_ENVELOPES: 10,
-	RAMP_TIME: 4000 / 44100 // FIXME
+	RAMP_TIME: 4000 / 44100, // FIXME
+	SLIDER_STEPS: 127
 };
 
 export const InitialDelayParameters = {
@@ -28,19 +29,34 @@ export const DefaultParameters = {
 	envelopeLevel: 8
 };
 
-export const ParameterBounds = {
-	DELAY_MIN: 0.01,
-	DELAY_MAX: 3,
-	REGEN_MIN: 0.1,
-	REGEN_MAX: 0.9,
-	PAN_LEFT: -1,
-	PAN_RIGHT: 1,
-	MIX_DRY: 0,
-	MIX_WET: 1,
-	HIGHPASS: 0,
-	LOWPASS: 20000,
-	ENVELOPES_MIN: 5,
-	ENVELOPES_MAX: 10
+export const ParameterMinimums = {
+	delayMin: 0.01,
+	delayMax: 0.01,
+	regenMin: 0.1,
+	regenMax: 0.1,
+	panMin: -1,
+	panMax: -1,
+	cutoffHP: 0,
+	cutoffLP: 0,
+	resonanceHP: 0,
+	resonanceLP: 0,
+	mix: 0,
+	envelopeLevel: 5
+};
+
+export const ParameterMaximums = {
+	delayMin: 3,
+	delayMax: 3,
+	regenMin: 0.9,
+	regenMax: 0.9,
+	panMin: 1,
+	panMax: 1,
+	cutoffHP: 20000,
+	cutoffLP: 20000,
+	resonanceHP: 0.5,
+	resonanceLP: 0.5,
+	mix: 1,
+	envelopeLevel: 10
 };
 
 export {Constants as default};
