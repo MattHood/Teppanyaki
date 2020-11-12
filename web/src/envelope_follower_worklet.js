@@ -78,7 +78,7 @@ class EnvelopeFollowerWorklet extends AudioWorkletProcessor {
 		for(let i = 0; i < input.length; i++) {
 			if(this.followEnvelopes(input[i])) {
 				this.port.postMessage({
-					message: 'env',
+					message: 'Level = ' + this.numberOfEnvelopes,
 					// eslint-disable-next-line no-undef
 					contextTimestamp: currentTime,
 				});

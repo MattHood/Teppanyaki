@@ -1,6 +1,7 @@
 import Constants from './constants.js';
 import DelayLine from './delay_line.js';
 import TeppanyakiParameters from './parameters.js';
+import {AudioWorkletNode} from 'standardized-audio-context';
 
 export default class Teppanyaki {
 
@@ -14,7 +15,7 @@ export default class Teppanyaki {
 		this.activeLine = 0;
 		
 		inputNode.connect(this.wetInput);
-		inputNode.connect(this.dryInput);
+		//inputNode.connect(this.dryInput);
 
 		// Create NUMBER_OF_LINES delay lines
 		for(var i = 0; i < Constants.NUMBER_OF_LINES; i++) {
@@ -24,7 +25,7 @@ export default class Teppanyaki {
 		this.lines[this.activeLine].unmute();
 
 		this.wetOutput.connect(this.mixedOutput);
-		this.dryInput.connect(this.mixedOutput);
+		// this.dryInput.connect(this.mixedOutput);
 		this.mixedOutput.connect(this.audioContext.destination);
 
 		this.audioContext.audioWorklet
@@ -43,20 +44,7 @@ export default class Teppanyaki {
 		return this.parameterState;
 	}
 
-	randomInRange(min, max) {
-		return Math.random()*(max - min) + min;
-	}
-
-	realiseParametersAsLineSettings(parameters) {
-		let lineSettings = {
-			delayTime: this.randomInRange(parameters.delayMin, parameters.delayMax),
-			regen: this.randomInRange(parameters.regenMin, parameters.regenMax),
-			pan: this.randomInRange(parameters.panMin, parameters.panMax),
-			highpass: parameters.cutoffHP,
-			lowpass: parameters.cutoffLP
-		};
-		return lineSettings;
-	}
+	
 
 
 	// eslint-disable-next-line no-unused-vars
@@ -66,7 +54,7 @@ export default class Teppanyaki {
 		let after = (next + 1) % Constants.NUMBER_OF_LINES;
 		let future = (after + 1) % Constants.NUMBER_OF_LINES;
 
-		let newParams = this.realiseParametersAsLineSettings(this.parameterState);
+		let newParams = this.parameterState.realiseParametersAsLineSettings(this.parameterState);
 
 		this.lines[prev].removeInput();
 		this.lines[next].reset(

@@ -1,4 +1,4 @@
-import {Constants, InitialDelayParameters, DefaultParameters} from './Constants.js';
+import {Constants, InitialDelayParameters, DefaultParameters} from './constants.js';
 
 export class DelayLine {
 	constructor(audioContext, inputNode, outputNode) {
@@ -30,41 +30,49 @@ export class DelayLine {
 			.connect(this.highpass)		//	Feedback |
 			.connect(this.lowpass)		//	loop	 |
 			.connect(this.feedback)		// 			 |
-			.connect(this.delay)		// <---------/
+			.connect(this.delay);		// <---------/
+		this.lowpass
 			.connect(this.panner)
 			.connect(this.outputGain)
 			.connect(outputNode);
 	}
 
 	unmute() {
-		this.inputGain.gain.value = 1;
-		this.outputGain.gain.value = 1;
+		this.inputGain.gain.linearRampToValueAtTime(0.8, this.delta());
+		this.outputGain.gain.linearRampToValueAtTime(0.8, this.delta());
 	}
 
 
 	windDown() {
-		this.outputGain.gain.linearRampToValueAtTime(0, this.ac.currentTime + Constants.RAMP_TIME);
+		this.outputGain.gain.linearRampToValueAtTime(0, this.delta());
 	}
 
 	clearAudio() {
-		this.delay.delayTime.value = 0;
-		this.feedback.gain.value = 0;
+		this.delay.delayTime.linearRampToValueAtTime(0, this.delta());
+		this.feedback.gain.linearRampToValueAtTime(0, this.delta());
 	}
 
-	reset(delayTime, regen, pan, highpass, lowpass) {
-		let rampDelta = this.ac.currentTime + Constants.RAMP_TIME;
-		this.delay.delayTime.value = delayTime;
-		this.feedback.gain.value = regen;
-		this.panner.pan.value = pan;
-		this.highpass.frequency.linearRampToValueAtTime(highpass, rampDelta);
-		this.lowpass.frequency.linearRampToValueAtTime(lowpass, rampDelta);
 
-		this.outputGain.gain.value = 1;
-		this.inputGain.gain.linearRampToValueAtTime(1, rampDelta);
+
+	reset(delayTime, regen, pan, highpass, lowpass) {
+
+		this.inputGain.gain.linearRampToValueAtTime(0.8, this.delta());
+		this.delay.delayTime.value = delayTime;
+		this.feedback.gain.linearRampToValueAtTime(regen, this.delta());
+		this.panner.pan.linearRampToValueAtTime(pan, this.delta());
+		this.highpass.frequency.linearRampToValueAtTime(highpass, this.delta());
+		this.lowpass.frequency.linearRampToValueAtTime(lowpass, this.delta());
+
+		this.outputGain.gain.linearRampToValueAtTime(0.8, this.delta());
+		
 	}
 
 	removeInput() {
-		this.inputGain.gain.linearRampToValueAtTime(0, this.ac.currentTime + Constants.RAMP_TIME);
+		this.inputGain.gain.linearRampToValueAtTime(0, this.delta());
+	}
+
+	delta() {
+		return this.ac.currentTime + Constants.RAMP_TIME;
 	}
 
 

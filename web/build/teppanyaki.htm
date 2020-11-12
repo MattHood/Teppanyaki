@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <audio src = "guitar2.m4a" id = "rach"></audio>
+  <!-- <script src="teppanyaki.js" type="module"></script> -->
+<body>
+  <button type="button" onclick="window.Track.play()"> Play </button><br />
+
+  <input type= "range" id = "delayMin"></input>
+    <label for="delayMin">Delay Min</label> <br />
+  <input type= "range" id = "delayMax"></input>
+    <label for="delayMax">Delay Max</label> <br />
+
+  <input type= "range" id = "regenMin"></input>
+    <label for="regenMin">Regen Min</label> <br />
+  <input type= "range" id = "regenMax"></input>
+    <label for="regenMax">Regen Max</label> <br />
+
+  <input type= "range" id = "panMin"></input>
+    <label for="panMin">Pan Min</label> <br />
+  <input type= "range" id = "panMax"></input>
+    <label for="panMax">Pan Max</label> <br />
+
+  <input type= "range" id = "cutoffHP"></input>
+    <label for="cutoffHP">Highpass</label> <br />
+  <input type= "range" id = "cutoffLP"></input>
+    <label for="cutoffLP">Lowpass</label> <br />
+
+  <input type= "range" id = "resonanceHP"></input>
+    <label for="resonanceHP">HP Resonance</label> <br />
+  <input type= "range" id = "resonanceLP"></input>
+    <label for="resonanceLP">LP Resonance</label> <br />
+
+  <input type= "range" id = "mix"></input>
+    <label for="mix">Mix</label> <br />
+  <input type= "range" id = "envelopeLevel"></input>
+    <label for="envelopeLevel">Envelopes</label> <br />
+
+  <input type="checkbox" id="quantize"></input>
+    <label for="quantize">Quantize</label>
+    <input type="number" id="bpm"></input>
+    <label for="bpm">BPM</label>
+
+  <script type = "module" src="main.js">
+  </script>
+
+</body>
+</html>

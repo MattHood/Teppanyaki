@@ -1,6 +1,6 @@
 export const Constants = {
 	RAMP_SAMPLES: 4000,
-	NUMBER_OF_LINES: 32,
+	NUMBER_OF_LINES: 6,
 	MAX_DELAY_TIME: 3,
 	SAMPLE_RATE: 44100,
 	MAX_ENVELOPES: 10,
@@ -26,7 +26,10 @@ export const DefaultParameters = {
 	resonanceHP: 0.3,
 	resonanceLP: 0.3,
 	mix: 1,
-	envelopeLevel: 8
+	envelopeLevel: 8,
+	quantize: 1,
+	subdivision: 4,
+	bpm: 120
 };
 
 export const ParameterMinimums = {
@@ -41,7 +44,10 @@ export const ParameterMinimums = {
 	resonanceHP: 0,
 	resonanceLP: 0,
 	mix: 0,
-	envelopeLevel: 5
+	envelopeLevel: 5,
+	quantize: 0,
+	subdivision: 1,
+	bpm: 1
 };
 
 export const ParameterMaximums = {
@@ -56,7 +62,10 @@ export const ParameterMaximums = {
 	resonanceHP: 0.5,
 	resonanceLP: 0.5,
 	mix: 1,
-	envelopeLevel: 10
+	envelopeLevel: 10,
+	quantize: 1,
+	subdivision: 13,
+	bpm: 300
 };
 
 export {Constants as default};
