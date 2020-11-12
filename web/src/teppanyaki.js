@@ -15,7 +15,7 @@ export default class Teppanyaki {
 		this.activeLine = 0;
 		
 		inputNode.connect(this.wetInput);
-		//inputNode.connect(this.dryInput);
+		inputNode.connect(this.dryInput);
 
 		// Create NUMBER_OF_LINES delay lines
 		for(var i = 0; i < Constants.NUMBER_OF_LINES; i++) {
@@ -25,7 +25,7 @@ export default class Teppanyaki {
 		this.lines[this.activeLine].unmute();
 
 		this.wetOutput.connect(this.mixedOutput);
-		// this.dryInput.connect(this.mixedOutput);
+		this.dryInput.connect(this.mixedOutput);
 		this.mixedOutput.connect(this.audioContext.destination);
 
 		this.audioContext.audioWorklet
