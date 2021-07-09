@@ -4,6 +4,7 @@
 - Log transform on sliders
 - Host this bad boy
 - Insert this todo list into the main page
+- Add TypeScript
 
 # BUGS
 - Clicking

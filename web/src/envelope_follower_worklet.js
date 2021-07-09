@@ -72,6 +72,18 @@ class EnvelopeFollowerWorklet extends AudioWorkletProcessor {
 
 	// eslint-disable-next-line no-unused-vars
 	process(inputs, outputs, parameters) {
+		if(inputs === 'undefined') {
+			console.log('No inputs');
+			return true;
+		}
+		if(inputs[0] === 'undefined') {
+			console.log('No inputs[0]');
+			return true;
+		}
+		if(inputs[0][0] === 'undefined') {
+			console.log('No inputs[0][0]');
+			return true;
+		}
 		let input = inputs[0][0];
 		this.numberOfEnvelopes = parameters.level;
 
