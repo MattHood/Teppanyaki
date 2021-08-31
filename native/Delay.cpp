@@ -1,5 +1,6 @@
 #include "Teppanyaki.hpp"
 #include <cmath>
+//#include <iostream>
 
 // TODO param initialisation is probably wrong
 
@@ -31,14 +32,29 @@ namespace Teppanyaki {
         }
       }
 
+      int n = 0;
       Sample DelayLine::process(Sample input)
       {
         Sample reap = buffer.relative(0);
         Sample sow = reap + input;
+        //Sample sow = input;
         sow = lowpassFilter.process(sow);
         sow = highpassFilter.process(sow);
         sow = params.regen * sow;
         buffer.relative(timeToSamples(params.time)) = sow;
+        buffer.advanceTarget();
+
+        // if(n == 0) {
+        //   std::cout << input << ",[ " << reap << ", " << buffer.target << std::endl;
+        //   n++;
+        // }
+        // else if(n == 4090) {
+        //   n = 0;
+        // }
+        // else {
+        //   n++;
+        // }
+        
         
         return reap;
       }

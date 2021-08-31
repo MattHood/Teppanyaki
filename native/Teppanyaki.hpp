@@ -20,10 +20,12 @@ namespace Teppanyaki  {
   const Control EnvelopeCutoff = 10;
   const float PotInputMaxM = 0.675;
   const float PotInputMinM = 0.325;
+  const int DefaultEnvelopeLevels = 6;
   const MinMax TimeBounds = { .min = 0.1, .max = MaximumDelayTime };
   const MinMax RegenBounds = { .min = 0, .max = 0.9 };
   const MinMax FilterBounds = { .min = 20, .max = 20000 };
   const MinMax PanBounds = { .min = -1, .max = 1 };
+  const int MaxEnvelopes = 10;
   
   // C-style array for external compatibility
   using Buffer = Sample[BufferSize];
@@ -163,9 +165,13 @@ namespace Teppanyaki  {
   }
 
   struct EnvelopeFollower {
-    bool process(Buffer buffer, Control cutoff);
+    bool process(Buffer buffer, int level);
+    //bool process(Buffer buffer, Control cutoff);
+    void differenceFilter(std::array<Sample, BufferSize>& buffer, int level);
+    int envelopeLevels = DefaultEnvelopeLevels;
     EnvelopeFollower();
     Filter::Lowpass lp;
+    std::array<Sample, MaxEnvelopes> previous { 0 };
     Sample previousSample = 0;
     Sample previousDifference = 0;
   };
